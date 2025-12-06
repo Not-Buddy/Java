@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class LinkedList<T> {
+public class LinkedList2<T> {
 
     // --- Node Structure ---
     public static class Node<T> {
@@ -15,7 +15,7 @@ public class LinkedList<T> {
 
     public Node<T> head;
 
-    public LinkedList() {
+    public LinkedList2() {
         this.head = null;
     }
 
@@ -143,12 +143,12 @@ public class LinkedList<T> {
     }
 
     public void Reverse() {
-        head = reverseRecursive(head, null);
+        head = reverseRecursive(head);
     }
 
     // --- INTERACTIVE MAIN METHOD ---
     public static void main(String[] args) {
-        LinkedList<Integer> list = new LinkedList<>();
+        LinkedList2<Integer> list = new LinkedList2<>();
         Scanner sc = new Scanner(System.in);
         boolean running = true;
 
