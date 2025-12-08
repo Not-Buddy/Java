@@ -56,6 +56,65 @@ public class BinaryTree<T extends Comparable<T>> {
             searchRecursive(current.right, data);
     }
 
+
+    public void delete2(T data) {
+    root = deleteIterative(root, data);
+}
+
+private Node<T> deleteIterative(Node<T> root, T data) {
+    Node<T> parent = null;
+    Node<T> current = root;
+
+    // Find the node to delete and its parent
+    while (current != null && !current.data.equals(data)) {
+        parent = current;
+        if (data.compareTo(current.data) < 0) {
+            current = current.left;
+        } else {
+            current = current.right;
+        }
+    }
+
+    // If the node was not found
+    if (current == null) {
+        System.out.println("Node not found.");
+        return root;
+    }
+
+    // Case 1: Node to delete has no children (leaf node)
+    if (current.left == null && current.right == null) {
+        if (current == root) {
+            return null;
+        }
+        if (parent.left == current) {
+            parent.left = null;
+        } else {
+            parent.right = null;
+        }
+    }
+    // Case 2: Node to delete has one child
+    else if (current.left == null || current.right == null) {
+        Node<T> child = (current.left != null) ? current.left : current.right;
+        if (current == root) {
+            return child; // Replace root with its child
+        }
+        if (parent.left == current) {
+            parent.left = child;
+        } else {
+            parent.right = child;
+        }
+    }
+    // Case 3: Node to delete has two children
+    else {
+        Node<T> successor = findMin(current.right);
+        T successorData = successor.data;
+        deleteIterative(root, successorData); // Delete the successor
+        current.data = successorData; // Replace current node's data with successor's data
+    }
+
+    return root;
+}
+
     // --- DELETE OPERATION ---
     public void delete(T data) {
         root = deleteRecursive(root, data);
@@ -180,59 +239,70 @@ public class BinaryTree<T extends Comparable<T>> {
             System.out.println("7. Print Tree State");
             System.out.println("8. Tree Height");
             System.out.println("9. Exit");
+            System.out.println("10. Delete Node (Iterative)");
             System.out.print("Enter choice: ");
 
             int choice = sc.nextInt();
             int data;
 
             switch (choice) {
-                case 1:
-                    System.out.print("Enter number to insert: ");
-                    data = sc.nextInt();
-                    tree.insert(data);
-                    System.out.println(data + " inserted successfully!");
-                    break;
-                case 2:
-                    System.out.print("Enter number to search: ");
-                    data = sc.nextInt();
-                    if (tree.search(data)) {
-                        System.out.println(data + " found in tree!");
-                    } else {
-                        System.out.println(data + " not found in tree.");
-                    }
-                    break;
-                case 3:
-                    System.out.print("Enter number to delete: ");
-                    data = sc.nextInt();
-                    if (tree.search(data)) {
-                        tree.delete(data);
-                        System.out.println(data + " deleted successfully!");
-                    } else {
-                        System.out.println(data + " not found in tree.");
-                    }
-                    break;
-                case 4:
-                    tree.inorder();
-                    break;
-                case 5:
-                    tree.preorder();
-                    break;
-                case 6:
-                    tree.postorder();
-                    break;
-                case 7:
-                    tree.printTree();
-                    break;
-                case 8:
-                    System.out.println("Tree height: " + tree.height());
-                    break;
-                case 9:
-                    running = false;
-                    System.out.println("Exiting...");
-                    continue;
-                default:
-                    System.out.println("Invalid choice, try again.");
-            }
+            case 1:
+                System.out.print("Enter number to insert: ");
+                data = sc.nextInt();
+                tree.insert(data);
+                System.out.println(data + " inserted successfully!");
+                break;
+            case 2:
+                System.out.print("Enter number to search: ");
+                data = sc.nextInt();
+                if (tree.search(data)) {
+                    System.out.println(data + " found in tree!");
+                } else {
+                    System.out.println(data + " not found in tree.");
+                }
+                break;
+            case 3:
+                System.out.print("Enter number to delete (recursive): ");
+                data = sc.nextInt();
+                if (tree.search(data)) {
+                    tree.delete(data);
+                    System.out.println(data + " deleted successfully!");
+                } else {
+                    System.out.println(data + " not found in tree.");
+                }
+                break;
+            case 4:
+                tree.inorder();
+                break;
+            case 5:
+                tree.preorder();
+                break;
+            case 6:
+                tree.postorder();
+                break;
+            case 7:
+                tree.printTree();
+                break;
+            case 8:
+                System.out.println("Tree height: " + tree.height());
+                break;
+            case 9:
+                running = false;
+                System.out.println("Exiting...");
+                continue;
+            case 10:
+                System.out.print("Enter number to delete (iterative): ");
+                data = sc.nextInt();
+                if (tree.search(data)) {
+                    tree.delete2(data);
+                    System.out.println(data + " deleted successfully (iterative)!");
+                } else {
+                    System.out.println(data + " not found in tree.");
+                }
+                break;
+            default:
+                System.out.println("Invalid choice, try again.");
+}
 
             // Print tree state after most operations
             if (running && choice != 4 && choice != 5 && choice != 6 && choice != 8) {
