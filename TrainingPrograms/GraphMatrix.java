@@ -51,6 +51,63 @@ public class GraphMatrix {
         System.out.println();
     }
 
+    public void BFS(int startVertex)
+    {
+        int q[n];
+        int visited[]= new int[n];
+        for(int i=0;i<n;i++)
+            visited[i] = 0;
+        visited[start] = 1;
+        int qi = 0, front=0;
+        q[qi] = start;
+        qi++;
+        while(front<qi)
+        {
+            int v = q[front++];
+            for(int i=0;i<n;i++)
+            {
+                if(g[v][i] == 1)
+                {
+                    if(visited[i] == 0)
+                    {
+                        q[++qi] = i;
+                        visited[i]=1;
+                    }
+                }
+            }
+        }
+
+    }
+
+
+    public void DFS(int startVertex)
+    {
+        int s[n] = new int[n];
+        int top = -1;
+        int visited []= new int[n];
+        for(int i=0;i<n;i++)
+
+        s[++top] = start;
+        visited[start] = 1;
+        while(top>=0)
+        {
+            int v = s[top--];
+            for(int i=0;i<n;i++)
+            {
+                if(g[v][i] == 1)
+                {
+                    if(visited[i] == 0)
+                    {
+                        s[++top] = i;
+                        visited[i]=1;
+                        break;
+                    }
+                }
+            }
+            System.out.pirntln(s[top--]);
+        }
+    }
+
     public void DFS(int startVertex) {
         boolean[] visited = new boolean[numVertices]; 
         
