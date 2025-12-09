@@ -19,7 +19,48 @@ public class SearchingAlgorithms {
         }
         return -1;
     }
-       
+    
+    public static int binarySearchRecursive(int arr[], int left, int right, int item)
+    {
+        if (right >= left) {
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid] == item)
+                return mid;
+
+            if (arr[mid] > item)
+                return binarySearchRecursive(arr, left, mid - 1, item);
+
+            return binarySearchRecursive(arr, mid + 1, right, item);
+        }
+
+        return -1;
+    }
+
+    public static int TernarySearch(int arr[], int left, int right, int item)
+    {
+
+        //Time Complexity: O(logn base 3)
+        if (right >= left) {
+            int mid1 = left + (right - left) / 3;
+            int mid2 = right - (right - left) / 3;
+
+            if (arr[mid1] == item)
+                return mid1;
+            if (arr[mid2] == item)
+                return mid2;
+
+            if (item < arr[mid1])
+                return TernarySearch(arr, left, mid1 - 1, item);
+            else if (item > arr[mid2])
+                return TernarySearch(arr, mid2 + 1, right, item);
+            else
+                return TernarySearch(arr, mid1 + 1, mid2 - 1, item);
+        }
+        return -1;
+    }
+
+
     public void linearSearch(int arr[], int len)
     {
         int i,flag=0;
